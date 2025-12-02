@@ -11,8 +11,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -44,7 +48,9 @@ fun CharacterListScreen(
             CharacterLoadingScreen(modifier)
         }
         is ListUiState.Success -> {
-            CharacterList(modifier, uiState, onShowDetail)
+            CharacterList(modifier, uiState, onShowDetail, onDeleteClick = { id ->
+                viewModel.onDeleteCharacter(id)
+            })
         }
         is ListUiState.Error -> {
             CharacterError()
@@ -81,9 +87,10 @@ private fun CharacterLoadingScreen(modifier: Modifier) {
 
 @Composable
 private fun CharacterList(
-    modifier: androidx.compose.ui.Modifier,
+    modifier: Modifier,
     uiState: ListUiState,
-    onShowDetail: (Long) -> Unit
+    onShowDetail: (Long) -> Unit,
+    onDeleteClick: (Long) -> Unit
 ) {
     LazyColumn(
         modifier = modifier,
@@ -102,7 +109,8 @@ private fun CharacterList(
                 characterId = it.id,
                 name = it.name,
                 image = it.image,
-                onShowDetail = onShowDetail
+                onShowDetail = onShowDetail,
+                onDeleteClick = onDeleteClick
             )
         }
     }
@@ -115,10 +123,11 @@ fun CharacterListItemCard(
     name: String,
     image: String,
     onShowDetail: (Long) -> Unit,
+    onDeleteClick: (Long) -> Unit
 )
 {
     Card(
-        modifier = androidx.compose.ui.Modifier
+        modifier = Modifier
             .fillMaxWidth()
             .height(128.dp)
             .clickable(
@@ -132,13 +141,22 @@ fun CharacterListItemCard(
             horizontalArrangement = Arrangement.SpaceAround
         ) {
             AsyncImage(
-                modifier = androidx.compose.ui.Modifier.size(64.dp),
+                modifier = Modifier.size(64.dp),
                 model = image,
                 contentDescription = name,
                 contentScale = ContentScale.Fit
             )
             Text(text= name,
                 style = MaterialTheme.typography.headlineSmall)
+            Button(
+                onClick = { onDeleteClick(characterId) },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.error,
+                    contentColor = MaterialTheme.colorScheme.onError
+                )
+            ) {
+                Text("Borrar")
+            }
         }
 
     }

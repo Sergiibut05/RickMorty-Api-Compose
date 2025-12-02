@@ -66,6 +66,10 @@ class CharacterRemoteDataSource @Inject constructor(
         }
     }
 
+    override suspend fun deleteOne(character: Character): Result<Int> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun isError() {
         TODO("Not yet implemented")
     }

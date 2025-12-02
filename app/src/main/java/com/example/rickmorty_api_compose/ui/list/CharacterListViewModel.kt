@@ -38,6 +38,16 @@ class CharacterListViewModel @Inject constructor(
             }
         }
     }
+    fun onDeleteCharacter(id: Long){
+        viewModelScope.launch {
+            val characterResult = repository.readOne(id)
+            val character = characterResult.getOrNull()
+            if(character != null){
+                repository.deleteOne(character)
+            }
+
+        }
+    }
 }
 
 sealed class ListUiState {

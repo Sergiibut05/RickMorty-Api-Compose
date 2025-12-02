@@ -48,6 +48,17 @@ class CharacterLocalDataSource @Inject constructor(
         }
     }
 
+    override suspend fun deleteOne(character: Character): Result<Int> {
+        val charEntity = character.toEntity()
+        val id = characterDao.deleteOne(charEntity)
+        return if(id > 0){
+            Result.success(id)
+
+        }else{
+            Result.failure(CharacterNotFoundException())
+        }
+    }
+
     override suspend fun isError() {
         TODO("Not yet implemented")
     }

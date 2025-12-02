@@ -32,6 +32,10 @@ class CharacterRespositoryImpl @Inject constructor(
         return localDataSource.observe()
     }
 
+    override suspend fun deleteOne(character: Character): Result<Int> {
+        return localDataSource.deleteOne(character)
+    }
+
     private suspend fun refresh() {
         val resultRemoteCharacter = remoteDataSource.readAll()
         if (resultRemoteCharacter.isSuccess) {

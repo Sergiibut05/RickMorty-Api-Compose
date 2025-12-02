@@ -7,4 +7,5 @@ interface CharacterRepository {
     suspend fun readOne(id: Long): Result<Character>
     suspend fun readAll(): Result<List<Character>>
     fun observe(): Flow<Result<List<Character>>>
+    suspend fun deleteOne(character: Character): Result<Int>
 }

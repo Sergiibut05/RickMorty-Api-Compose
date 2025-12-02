@@ -13,5 +13,7 @@ interface CharacterDataSource {
 
     suspend fun readOne(id: Long): Result<Character>
 
+    suspend fun deleteOne(character: Character): Result<Int>
+
     suspend fun isError()
 }
