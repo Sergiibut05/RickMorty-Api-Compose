@@ -15,6 +15,9 @@ interface CharacterDao {
     @Delete
     suspend fun deleteOne(character: CharacterEntity): Int
 
+    @Query("DELETE FROM character")
+    suspend fun deleteAll(): Int
+
     @Query("SELECT * FROM character")
     suspend fun getAll(): List<CharacterEntity>
 

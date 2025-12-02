@@ -50,7 +50,9 @@ ksp {
 }
 
 dependencies {
-//Coil
+    implementation("androidx.compose.material:material-icons-extended:1.7.6")
+
+    //Coil
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
 

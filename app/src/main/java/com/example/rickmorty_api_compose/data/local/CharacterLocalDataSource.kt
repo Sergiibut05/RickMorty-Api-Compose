@@ -34,7 +34,7 @@ class CharacterLocalDataSource @Inject constructor(
 
     }
 
-    override suspend fun readAll(): Result<List<Character>> {
+    override suspend fun readAll(name: String?): Result<List<Character>> {
         val result = Result.success(characterDao.getAll().toModel())
         return result
     }
@@ -53,6 +53,16 @@ class CharacterLocalDataSource @Inject constructor(
         val id = characterDao.deleteOne(charEntity)
         return if(id > 0){
             Result.success(id)
+
+        }else{
+            Result.failure(CharacterNotFoundException())
+        }
+    }
+
+    override suspend fun deleteAll(): Result<Int> {
+        val characteresDeleted = characterDao.deleteAll()
+        return if(characteresDeleted > 0){
+            Result.success(characteresDeleted)
 
         }else{
             Result.failure(CharacterNotFoundException())

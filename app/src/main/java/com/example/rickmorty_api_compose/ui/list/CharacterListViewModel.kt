@@ -48,6 +48,21 @@ class CharacterListViewModel @Inject constructor(
 
         }
     }
+    fun onDeleteAll(){
+        viewModelScope.launch {
+            repository.deleteAll()
+        }
+    }
+    fun onSearch(text: String){
+        viewModelScope.launch {
+            repository.deleteAll()
+            val charResponse =  repository.readAll(text).getOrNull()
+            if (charResponse != null){
+                repository.addAll(charResponse)
+            }
+
+        }
+    }
 }
 
 sealed class ListUiState {

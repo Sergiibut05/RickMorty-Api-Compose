@@ -20,8 +20,8 @@ class CharacterRespositoryImpl @Inject constructor(
         return remoteDataSource.readOne(id)
     }
 
-    override suspend fun readAll(): Result<List<Character>> {
-        return remoteDataSource.readAll()
+    override suspend fun readAll(text: String): Result<List<Character>> {
+        return remoteDataSource.readAll(text)
     }
 
     override fun observe(): Flow<Result<List<Character>>> {
@@ -36,12 +36,20 @@ class CharacterRespositoryImpl @Inject constructor(
         return localDataSource.deleteOne(character)
     }
 
+    override suspend fun deleteAll(): Result<Int> {
+        return localDataSource.deleteAll()
+    }
+
+
     private suspend fun refresh() {
         val resultRemoteCharacter = remoteDataSource.readAll()
         if (resultRemoteCharacter.isSuccess) {
             // Guardar en local disparará el Flow de 'observe()'
             localDataSource.addAll(resultRemoteCharacter.getOrNull()!!)
         }
+    }
+    override suspend fun addAll(list: List<Character>) {
+        localDataSource.addAll(list)
     }
 
 }

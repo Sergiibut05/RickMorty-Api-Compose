@@ -9,11 +9,13 @@ interface CharacterDataSource {
 
     fun observe(): Flow<Result<List<Character>>>
 
-    suspend fun readAll(): Result<List<Character>>
+    suspend fun readAll(name: String? = ""): Result<List<Character>>
 
     suspend fun readOne(id: Long): Result<Character>
 
     suspend fun deleteOne(character: Character): Result<Int>
+
+    suspend fun deleteAll(): Result<Int>
 
     suspend fun isError()
 }

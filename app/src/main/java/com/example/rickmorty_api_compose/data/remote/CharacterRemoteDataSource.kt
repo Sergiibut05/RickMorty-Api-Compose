@@ -30,9 +30,9 @@ class CharacterRemoteDataSource @Inject constructor(
         )
     }
 
-    override suspend fun readAll(): Result<List<Character>> {
+    override suspend fun readAll(name: String?): Result<List<Character>> {
         try {
-            val response = api.readAll()
+            val response = api.readAll(name = name ?: "")
             val finalList = mutableListOf<Character>()
 
             return if (response.isSuccessful) {
@@ -67,6 +67,10 @@ class CharacterRemoteDataSource @Inject constructor(
     }
 
     override suspend fun deleteOne(character: Character): Result<Int> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteAll(): Result<Int> {
         TODO("Not yet implemented")
     }
 
